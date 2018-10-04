@@ -1,7 +1,7 @@
 import unittest
 import read, copy
 from logical_classes import *
-from student_solution import KnowledgeBase
+from student_code import KnowledgeBase
 
 class KBTest(unittest.TestCase):
 
