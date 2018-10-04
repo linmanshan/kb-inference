@@ -98,8 +98,8 @@ class KnowledgeBase(object):
             listof Bindings|False - list of Bindings if result found, False otherwise
         """
         print("Asking {!r}".format(fact))
-        if factq(statement):
-            f = Fact(statement)
+        if factq(fact.statement):
+            f = Fact(fact.statement)
             bindings_lst = ListOfBindings()
             # ask matched facts
             for fact in self.facts:
@@ -110,7 +110,7 @@ class KnowledgeBase(object):
             return bindings_lst if bindings_lst.list_of_bindings else False
 
         else:
-            print("Invalid ask:", statement)
+            print("Invalid ask:", fact.statement)
             return False
 
     def kb_retract(self, fact):

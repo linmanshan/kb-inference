@@ -1,8 +1,4 @@
----
-title: "Lab 3: Knowledge Base"
-author: EECS 348
-geometry: margin=1in
----
+# Assignment 2: Knowledge Base: Rules
 
 In this lab assignment, you are going to extend a knowledge base (KB) and an inference engine. The knowledge base supports three main interfaces: `Assert`, `Retract`, and `Ask`.
 
@@ -10,7 +6,7 @@ In this lab assignment, you are going to extend a knowledge base (KB) and an inf
 - `Ask`: ask queries and return a list of bindings for facts.
 - `Retract`: remove facts from the knowledge base. Also, remove all other facts or rules that are dependent on the removed fact or rule.
 
-# Starter code
+## Starter code
 
 We provide you five files with code: `main.py`, `logical_classes.py`, `read.py`, `util.py` and `student_code.py`. (Details about these files are described at the end of this write-up.)
 
@@ -22,7 +18,7 @@ We provide you five files with code: `main.py`, `logical_classes.py`, `read.py`,
 
 There are also two data files: `statements_kb.txt` and `statements_kb2.txt`.  These files contain the facts and rules to be inserted into the KB. The provided tests use `statements_kb2.txt`, and you may use `statements_kb.txt` to generate your own tests.
 
-# Your task
+## Your task
 
 To get you started, the `Assert` and `Ask` interfaces have been written - exposed via the `KnowledgeBase.kb_assert` and `KnowledgeBase.kb_ask` methods.
 
@@ -31,7 +27,7 @@ Your task is two-part:
 1. Implement the forward-chaining inferences that occurs upon asserting facts and rules into the KB - i.e., implement the `InferenceEnginer.fc_infer` method.
 2. Implement the `Retract` interface to remove facts from the KB - i.e., implement the `KnowledgeBase.kb_retract` method.
 
-## Rule currying in `fc_infer`
+### Rule currying in `fc_infer`
 
 The key idea is that we don't just infer new facts - we can infer new rules.
 
@@ -53,19 +49,19 @@ Now imagine that we know that box `A` is bigger than box `B`; i.e. that we have 
 
 If we find the fact `on(A, B)` in the KB, then we could use this rule to infer the fact `covered(B)`. If we don't have that fact, however, we now have a simple rule that will let us make the inference easily if we see that fact in the future.
 
-## Removing rules and facts inferred from a removed fact
+### Removing rules and facts inferred from a removed fact
 
 When you remove a fact, you also need to remove all facts and rules that were inferred using this fact. However, a given fact/rule might be supported by multiple facts - so, you'll need to check whether the facts/rules inferred from this fact are also supported by other facts (or if they were directly asserted).
 
 As a simplification, you can assume that **no rules will create circular dependencies**. E.g., imagine a situation like `A => B`, `B => C`, and `C => B`. Removing `A` would mean removing `B` and `C`, since they depend on `A` via those rules. However, implementing that would get messy, since `B` and `C` depend on each other. You will **NOT** be given scenarios like this.
 
-## Testing
+### Testing
 
 To test this lab, we'll create several testing files that contain a bunch of facts and rules (similar to the ones provided). Each fact/rule will be asserted one-by-one into the KB. Other files containing more facts/rules will be used to test the `Retract` operation, and make sure it worked correctly. *We recommend that you manually check each function and make sure you understand each function and output*. **We also recommend you make your own testing files, and feel free to share them on Piazza.**. When sharing tests, please provide your rationale to the test, explain what you hope to test and/or how you developed the test.
 
-## Hints
+### Hints
 
-### Implementing `fc_infer`
+#### Implementing `fc_infer`
 
 - Use the `util.match` function to do unification and create possible bindings
 - Use the `util.instantiate` function to bind a variable in the rest of a rule
@@ -73,7 +69,7 @@ To test this lab, we'll create several testing files that contain a bunch of fac
   - `fr` is *supported* by `F` and `R`. Add them to `fr`'s `supported_by` list - you can do this by passing them as a constructor argument when creating `fr`.
   - `F` and `R` now *support* `fr`. Add `fr` to the `supports_rules` and `supports_facts` lists (as appropriate) in `F` and `R`.
 
-### Implementing `kb_retract`
+#### Implementing `kb_retract`
 
 - You can only remove an unsupported fact.
 - Use the `supports_rules` and `supports_facts` fields to find and adjust facts and rules that are supported by a retracted fact.
@@ -82,7 +78,7 @@ To test this lab, we'll create several testing files that contain a bunch of fac
 
 \pagebreak
 
-# Appendix: File Breakdown
+## Appendix: File Breakdown
 
 Below is a description of each included file and the classes contained within each including a listing of their attributes. Each file has documentation in the code reflecting the information below (in most cases they are exactly the same). As you read through the attributes follow along in the corresponding files and make sure you're understanding the descriptions.
 
@@ -90,11 +86,11 @@ Attributes of each class are listed in the following format (_Note:_ if you see 
 
 - `field_name` (`type`) - text description
 
-## logical_classes.py
+### logical_classes.py
 
 This file defines all basic structure classes.
 
-### Fact
+#### Fact
 
 Represents a fact in our knowledge base. Has a statement containing the content of the fact, e.g. (isa Sorceress Wizard) and fields tracking which facts/rules in the KB it supports and is supported by.
 
@@ -107,7 +103,7 @@ Represents a fact in our knowledge base. Has a statement containing the content 
 - `supports_facts` (`listof Fact`): Facts that this fact supports
 - `supports_rules` (`listof Rule`): Rules that this fact supports
 
-### Rule
+#### Rule
 
 Represents a rule in our knowledge base. Has a list of statements (the LHS) containing the statements that need to be in our KB for us to infer the RHS statement. Also has fields tracking which facts/rules in the KB it supports and is supported by.
 
@@ -121,7 +117,7 @@ Represents a rule in our knowledge base. Has a list of statements (the LHS) cont
 - `supports_facts` (`listof Fact`): Facts that this rule supports
 - `supports_rules` (`listof Rule`): Rules that this rule supports
 
-### Statement
+#### Statement
 
 Represents a statement in our knowledge base, e.g. (attacked Ai Nosliw), (diamonds Loot), (isa Sorceress Wizard), etc. These statements show up in Facts or on the LHS and RHS of Rules.
 
@@ -130,7 +126,7 @@ Represents a statement in our knowledge base, e.g. (attacked Ai Nosliw), (diamon
 - `predicate` (`str`) - the predicate of the statement, e.g. isa, hero, needs
 - `terms` (`listof Term`) - list of terms (Variable or Constant) in the statement, e.g. `'Nosliw'` or `'?d'`
 
-### Term
+#### Term
 
 Represents a term (a Variable or Constant) in our knowledge base. Can sorta be thought of as a super class of Variable and Constant, though there is no actual inheritance implemented in the code.
 
@@ -138,7 +134,7 @@ Represents a term (a Variable or Constant) in our knowledge base. Can sorta be t
 
 - `term` (`Variable|Constant`) - The Variable or Constant that this term holds (represents)
 
-### Variable
+#### Variable
 
 Represents a variable used in statements, e.g. `?x`.
 
@@ -146,7 +142,7 @@ Represents a variable used in statements, e.g. `?x`.
 
 - `element` (`str`): The name of the variable, e.g. `'?x'`
 
-### Constant
+#### Constant
 
 Represents a constant used in statements
 
@@ -154,7 +150,7 @@ Represents a constant used in statements
 
 - `element` (`str`): The value of the constant, e.g. `'Nosliw'`
 
-### Binding
+#### Binding
 
 Represents a binding of a constant to a variable, e.g. `'Nosliw'` might be bound to `'?d'`
 
@@ -163,7 +159,7 @@ Represents a binding of a constant to a variable, e.g. `'Nosliw'` might be bound
 - `variable` (`str`): The name of the variable associated with this binding, e.g. `'?d'`
 - `constant` (`str`): The value of the variable, e.g. `'Nosliw'`
 
-### Bindings
+#### Bindings
 
 Represents Binding(s) used while matching two statements
 
@@ -178,7 +174,7 @@ Represents Binding(s) used while matching two statements
 - `bound_to(variable)` (`(Variable) => Variable|Constant|False`) - check if variable is bound. If so return value bound to it, else False
 - `test_and_bind(variable_verm,value_term)` (`(Term, Term) => bool`) - Check if variable_term already bound. If so return whether or not passed in value_term matches bound value. If not, add binding between variable_terma and value_term and return True.
 
-### ListOfBindings
+#### ListOfBindings
 
 Container for multiple Bindings
 
@@ -186,7 +182,7 @@ Container for multiple Bindings
 
 - `add_bindings(bindings, facts_rules)` - (`(Bindings, listof Fact|Rule) => void`) - add given bindings to list of Bindings along with associated rules or facts
 
-## read.py
+### read.py
 
 This file has no classes but defines useful helper functions for reading input from the user or a file.
 
@@ -198,7 +194,7 @@ This file has no classes but defines useful helper functions for reading input f
 - `get_new_fact_or_rule()` - (`() => Fact | Rule`) - get a new fact or rule by typing, nothing passed in, data comes from user input
 - `get_new_statements()` - (`() => listof Statement`) - read statements from input, nothing passed in, data comes from user input
 
-## util.py
+### util.py
 
 This file has no classes but defines useful helper functions.
 
@@ -210,14 +206,14 @@ This file has no classes but defines useful helper functions.
 - `instantiate(statement, bindings)` (`(Statement, Bindings) => Statement|Term`)  - generate Statement from given statement and bindings. Constructed statement has bound values for variables if they exist in bindings.
 - `vprint(message, level, verbose, data=[])` (`(str, int, int, listof any) => void`) - prints message if verbose > level, if data provided then formats message with given data
 
-## student_code.py
+### student_code.py
 
 This file defines the two classes you must implement, KnowledgeBase and InferenceEngine.
 
-### KnowledgeBase
+#### KnowledgeBase
 
 Represents a knowledge base and implements the three actions described in the writeup (`Assert`, `Retract` and `Ask`)
 
-### InferenceEngine
+#### InferenceEngine
 
 Represents an inference engine. Implements forward-chaining in this lab.
