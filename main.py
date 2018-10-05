@@ -19,12 +19,14 @@ class KBTest(unittest.TestCase):
         ask1 = read.parse_input("fact: (motherof ada ?X)")
         print(' Asking if', ask1)
         answer = self.KB.kb_ask(ask1)
+        self.assertEqual(len(answer), 1)
         self.assertEqual(str(answer[0]), "?X : bing")
 
     def test2(self):
         ask1 = read.parse_input("fact: (grandmotherof ada ?X)")
         print(' Asking if', ask1)
         answer = self.KB.kb_ask(ask1)
+        self.assertEqual(len(answer), 2)
         self.assertEqual(str(answer[0]), "?X : felix")
         self.assertEqual(str(answer[1]), "?X : chen")
 
@@ -35,6 +37,7 @@ class KBTest(unittest.TestCase):
         ask1 = read.parse_input("fact: (grandmotherof ada ?X)")
         print(' Asking if', ask1)
         answer = self.KB.kb_ask(ask1)
+        self.assertEqual(len(answer), 1)
         self.assertEqual(str(answer[0]), "?X : felix")
 
     def test4(self):
@@ -44,6 +47,7 @@ class KBTest(unittest.TestCase):
         ask1 = read.parse_input("fact: (grandmotherof ada ?X)")
         print(' Asking if', ask1)
         answer = self.KB.kb_ask(ask1)
+        self.assertEqual(len(answer), 2)
         self.assertEqual(str(answer[0]), "?X : felix")
         self.assertEqual(str(answer[1]), "?X : chen")
         
@@ -54,6 +58,7 @@ class KBTest(unittest.TestCase):
         ask1 = read.parse_input("fact: (parentof ada ?X)")
         print(' Asking if', ask1)
         answer = self.KB.kb_ask(ask1)
+        self.assertEqual(len(answer), 1)
         self.assertEqual(str(answer[0]), "?X : bing")
 
 

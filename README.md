@@ -71,7 +71,7 @@ To test this lab, we'll create several testing files that contain a bunch of fac
 
 #### Implementing `kb_retract`
 
-- You can only remove an unsupported fact.
+- A fact should only be removed if it is unsupported.
 - Use the `supports_rules` and `supports_facts` fields to find and adjust facts and rules that are supported by a retracted fact.
   - The `supported_by` lists in each fact/rule that it supports needs to be adjusted accordingly.
   - If a supported fact/rule is no longer supported as a result of retracting this fact (and is not asserted), it should also be removed.

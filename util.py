@@ -86,7 +86,7 @@ def factq(element):
     Returns:
         bool
     """
-    return isinstance(element, Fact)
+    return isinstance(element, lc.Fact)
 
 def printv(message, level, verbose, data=[]):
     """Prints given message formatted with data if passed in verbose flag is greater than level

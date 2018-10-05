@@ -107,13 +107,13 @@ class KnowledgeBase(object):
                 if binding:
                     bindings_lst.add_bindings(binding, [fact])
 
-            return bindings_lst if bindings_lst.list_of_bindings else False
+            return bindings_lst if bindings_lst.list_of_bindings else []
 
         else:
             print("Invalid ask:", fact.statement)
-            return False
+            return []
 
-    def kb_retract(self, fact):
+    def kb_retract(self, fact_or_rule):
         """Retract a fact from the KB
 
         Args:
@@ -122,7 +122,7 @@ class KnowledgeBase(object):
         Returns:
             None
         """
-        printv("Retracting {!r}", 0, verbose, [fact])
+        printv("Retracting {!r}", 0, verbose, [fact_or_rule])
         ####################################################
         # Student code goes here
         
