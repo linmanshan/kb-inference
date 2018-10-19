@@ -6,7 +6,6 @@ fact: (grandmotherof ada felix)
 fact: (motherof greta felix)
 
 rule: ((motherof ?x ?y)) -> (parentof ?x ?y)
-rule: ((sisters ?x ?y)) -> (sisters ?y ?x)
 rule: ((parentof ?x ?y) (sisters ?x ?z)) -> (auntof ?z ?y)
 rule: ((parentof ?x ?y) (motherof ?z ?x)) -> (grandmotherof ?z ?y)
-rule: ((grandmotherof ?x ?y) (motherof ?z ?y)) -> (motherof ?x ?z)
+

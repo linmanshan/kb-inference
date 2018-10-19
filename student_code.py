@@ -49,10 +49,8 @@ class KnowledgeBase(object):
 
     def kb_add(self, fact_rule):
         """Add a fact or rule to the KB
-
         Args:
             fact_rule (Fact|Rule) - the fact or rule to be added
-
         Returns:
             None
         """
@@ -67,7 +65,9 @@ class KnowledgeBase(object):
                     ind = self.facts.index(fact_rule)
                     for f in fact_rule.supported_by:
                         self.facts[ind].supported_by.append(f)
-
+                else:
+                    ind = self.facts.index(fact_rule)
+                    self.facts[ind].asserted = True
         elif isinstance(fact_rule, Rule):
             if fact_rule not in self.rules:
                 self.rules.append(fact_rule)
@@ -78,6 +78,9 @@ class KnowledgeBase(object):
                     ind = self.rules.index(fact_rule)
                     for f in fact_rule.supported_by:
                         self.rules[ind].supported_by.append(f)
+                else:
+                    ind = self.facts.index(fact_rule)
+                    self.facts[ind].asserted = True
 
     def kb_assert(self, fact_rule):
         """Assert a fact or rule into the KB
@@ -98,7 +101,7 @@ class KnowledgeBase(object):
             listof Bindings|False - list of Bindings if result found, False otherwise
         """
         print("Asking {!r}".format(fact))
-        if factq(fact.statement):
+        if factq(fact):
             f = Fact(fact.statement)
             bindings_lst = ListOfBindings()
             # ask matched facts
